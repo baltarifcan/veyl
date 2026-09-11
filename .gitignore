@@ -1,0 +1,6 @@
+.devenv*
+devenv.local.nix
+.direnv
+result
+result-*
+__pycache__/
