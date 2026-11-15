@@ -1,0 +1,26 @@
+[package]
+name = "veyld"
+version = "2.0.0"
+edition = "2021"
+license = "MIT"
+description = "DNS-over-HTTPS resolver and auto-desync SOCKS/CONNECT proxy for macOS"
+publish = false
+
+[dependencies]
+tokio = { version = "1.40", features = ["rt-multi-thread", "net", "io-util", "time", "sync", "macros", "signal"] }
+h2 = "0.4"
+http = "1"
+bytes = "1"
+rustls = { version = "0.23", default-features = false, features = ["ring", "std", "tls12"] }
+tokio-rustls = { version = "0.26", default-features = false, features = ["ring", "tls12"] }
+webpki-roots = "1"
+libc = "0.2"
+
+[profile.release]
+opt-level = 3
+lto = "fat"
+codegen-units = 1
+# Unwind, not abort: a panic in one connection's task must not take the
+# resolver and every other connection down with it.
+panic = "unwind"
+strip = true
